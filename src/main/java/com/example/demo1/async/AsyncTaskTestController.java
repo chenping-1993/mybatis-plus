@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2019/8/13
  */
 @RestController
-public class AsyncTaskTest {
+public class AsyncTaskTestController {
 
     @Autowired
     AsyncTask asyncTask;

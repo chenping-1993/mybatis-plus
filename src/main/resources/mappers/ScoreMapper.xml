@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo1.mapper.ScoreMapper">
+
+    <select id="selectScoreAndName" resultType="com.example.demo1.response.ScoreResp">
+        select s.subject,s.score,s.stu_id as id,u.name as name from score s left join user u on s.stu_id = u.id
+    </select>
+
+    <select id="selectScoreAndNameByParams" resultType="com.example.demo1.response.ScoreResp">
+        select s.subject,s.score,s.stu_id as id,u.name as name from score s left join user u on s.stu_id = u.id
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="selectScoreAndNameByParams1" resultType="com.example.demo1.response.ScoreResp">
+        select s.subject,s.score,s.stu_id as id,u.name as name from score s left join user u on s.stu_id = u.id
+        where 1=1
+        <if test="params.score != null">
+            and s.score <![CDATA[ >= ]]> #{params.score}
+        </if>
+    </select>
+
+
+</mapper>

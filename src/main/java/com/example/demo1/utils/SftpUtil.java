@@ -179,6 +179,25 @@ public class SftpUtil {
 
         return false;
     }
+    
+    public boolean downloadFile(String remotePath, String remoteFileName, String localPath) {
+        try {
+            sftp.cd(remotePath);
+
+            sftp.get(remoteFileName, localPath);
+            File localFile = new File(localPath);
+            if(!localFile.exists()){
+                return false;
+            }
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (SftpException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+}
 
     public boolean createDir(String createpath) {
         try {

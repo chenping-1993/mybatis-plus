@@ -96,8 +96,7 @@ public class SftpUtil {
      * @Author: chenping
      * @Date: 2019/11/18
      */
-    public boolean uploadFile(String remotePath, String remoteFileName,
-                              String localPath, String localFileName) {
+    public boolean uploadFile(String remotePath, String remoteFileName, String localPath, String localFileName) {
         FileInputStream in = null;
         try {
             log.info(remotePath);
@@ -164,8 +163,7 @@ public class SftpUtil {
      * @Author: chenping
      * @Date: 2019/11/18
      */
-    public boolean downloadFile(String remotePath, String remoteFileName,
-                                String localPath, String localFileName) {
+    public boolean downloadFile(String remotePath, String remoteFileName, String localPath, String localFileName) {
         try {
             sftp.cd(remotePath);
             File file = new File(localPath + localFileName);
@@ -179,7 +177,16 @@ public class SftpUtil {
 
         return false;
     }
-    
+
+    /**
+     * @Description:  downloadFile
+     * @param: remotePath 要下载的ftp文件路径
+     * @param: remoteFileName 要下载的文件名
+     * @param: localPath 本地路径
+     * @return: boolean
+     * @Author: chenping
+     * @Date: 2019/11/20
+     */
     public boolean downloadFile(String remotePath, String remoteFileName, String localPath) {
         try {
             sftp.cd(remotePath);
@@ -190,8 +197,6 @@ public class SftpUtil {
                 return false;
             }
             return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (SftpException e) {
             e.printStackTrace();
         }

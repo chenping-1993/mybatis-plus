@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -108,7 +109,7 @@ public class DateUtils {
     /**
      * 判断是否是今天
      *
-     * @param strDate
+     * @param strDate 格式为 yyyy-MM-dd
      * @return
      */
     public static boolean isCurrentDay(String strDate) {
@@ -123,11 +124,11 @@ public class DateUtils {
     }
 
     /**
-     * 获取几小时后的时间
+     * 获取当前时间几小时后的时间
      *
      * @param hour
-     * @param format
-     * @return
+     * @param format 格式为 HH_MM_SS
+     * @return 输出格式为 HH_MM_SS
      */
     public static String getAfterDateTime(int hour, String format) {
         LocalTime localTime = LocalTime.now().plusHours(hour);
@@ -190,12 +191,11 @@ public class DateUtils {
      * @return String
      */
     public static String changeFormatDateString(String format1, String format2, String strDate) {
-        if (strDate == null)
+        if (strDate == null) {
             return "";
-        if (strDate.length() >= format1.length() && format1.length() >= format2.length()) {
-            return parseDateToString(parseStringToDate(strDate, format1), format2);
         }
-        return strDate;
+        return parseDateToString(parseStringToDate(strDate, format1), format2);
+            
     }
 
     /**
@@ -205,13 +205,13 @@ public class DateUtils {
      * @param format
      * @return
      */
-    public static String formatStrdateToStrdate(String strDate, String format) {
-        if (strDate == null) {
-            return "";
-        }
-        Date date = parseStringToDate(strDate, format);
-        return parseDateToString(date, format);
-    }
+//     public static String formatStrdateToStrdate(String strDate, String format) {
+//         if (strDate == null) {
+//             return "";
+//         }
+//         Date date = parseStringToDate(strDate, format);
+//         return parseDateToString(date, format);
+//     }
 
     /**
      * 得到当前日期的前N天时间 yyyymmdd
@@ -230,11 +230,8 @@ public class DateUtils {
 
     /**
      * 获得N个月后的日期
-     * <p>
-     * theDate 日期
-     * <p>
+     * theDate 日期 与format格式保持一致
      * int month 月数
-     * <p>
      * format 格式
      */
     public static String afterNMonthDate(String theDate, int month, String format) {
@@ -249,9 +246,9 @@ public class DateUtils {
     /**
      * 得到N天后的日期
      *
-     * @param theDate 某日期
-     *                格式 yyyy-MM-dd
+     * @param theDate 某日期 format格式
      * @param nDayNum N天
+     * @param format N天
      * @return String N天后的日期
      */
     public static String afterNDaysDate(String theDate, Integer nDayNum, String format) {
@@ -307,6 +304,33 @@ public class DateUtils {
                 .format(dateTimeFormatter);
     }
 
+        /**
+     * @description:  获取指定日期的后n天
+     * @param: strData
+     * @param: days
+     * @param: format 日期格式，与strData格式一致
+     * @return: java.lang.String
+     * @author: chenping
+     * @date: 2019/11/28
+     */
+    public static String getAfterNDaysDate(String strData, int days, String format) {
+        String preDate = "";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf =new SimpleDateFormat(format);
+        Date date = null;
+        try {
+            date = sdf.parse(strData);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        c.setTime(date);
+        int day1 = c.get(Calendar.DATE);
+        c.set(Calendar.DATE, day1 + days);
+        preDate = sdf.format(c.getTime());
+        return preDate;
+    }
+    
     /**
      * 比较两个字符串格式日期大小,带格式的日期
      *
@@ -327,8 +351,8 @@ public class DateUtils {
     }
 
     /**
-     * 比较两个字符串格式日期大小,带格式的日期,返回int
-     *
+     * 比较两个字符串格式日期大小,带格式的日期
+     * 返回相差的毫秒数
      * @param strdat1
      * @param strdat2
      * @param format

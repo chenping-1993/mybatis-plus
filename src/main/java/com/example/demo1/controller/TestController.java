@@ -309,7 +309,7 @@ public class TestController {
 //                System.out.println("---");
 //        }
 
-        System.out.println(DateUtils.formatStrdateToStrdate("2019-08-07 15:20:22.0", DateUtils.YYYY_MM_DD_HH_MM_SS));
+//        System.out.println(DateUtils.formatStrdateToStrdate("2019-08-07 15:20:22.0", DateUtils.YYYYMMDDHHMMSS));
 
 
     }

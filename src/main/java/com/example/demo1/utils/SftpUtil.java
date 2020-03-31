@@ -41,27 +41,32 @@ public class SftpUtil {
     /**
      * @Description:  连接sftp
      * @param:
-     * @return: com.jcraft.jsch.ChannelSftp
+     * @return: boolean
      * @Author: chenping
-     * @Date: 2019/11/18
+     * @Date: 2020/3/31
      */
-    public ChannelSftp connect() throws Exception {
+    public boolean connect() throws Exception {
         JSch jsch = new JSch();
-        session = jsch.getSession(sftpUsername, sftpIp, sftpPort);
-        session.setPassword(sftpPassword);
-        Properties sshConfig = new Properties();
-        sshConfig.put("StrictHostKeyChecking", "no");
-        session.setConfig(sshConfig);
-        session.connect();
-        Channel channel = session.openChannel("sftp");
-        if (channel != null) {
-            channel.connect();
+        if (StaticMap.sessionMap.containsKey(sftpIp+sftpUsername+sftpPort)){
+            session= (Session) StaticMap.sessionMap.get(sftpIp+sftpUsername+sftpPort);
+        } else {
+            session = jsch.getSession(sftpUsername, sftpIp, sftpPort);
+            session.setPassword(sftpPassword);
+            Properties sshConfig = new Properties();
+            sshConfig.put("StrictHostKeyChecking", "no");
+            sshConfig.put("PreferredAuthentications","publickey,keyboard-interactive,password"); // 不加这行会报错 Kerberos username [xxxxxx]:
+            session.setConfig(sshConfig);
+            session.connect();
+        }
+        sftp = (ChannelSftp) session.openChannel("sftp");
+        if (sftp != null) {
+            sftp.connect();
+            log.info("channel connecting success.");
+            return true;
         } else {
             log.info("channel connecting failed.");
-            throw new Exception("channel connecting failed.");
+            return false;
         }
-        sftp = (ChannelSftp) channel;
-        return sftp;
     }
 
     /**

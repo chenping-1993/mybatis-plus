@@ -158,30 +158,6 @@ public class SftpUtil {
 
     }
 
-    /**
-     * @Description:  downloadFile
-     * @param: remotePath
-     * @param: remoteFileName
-     * @param: localPath
-     * @param: localFileName
-     * @return: boolean
-     * @Author: chenping
-     * @Date: 2019/11/18
-     */
-    public boolean downloadFile(String remotePath, String remoteFileName, String localPath, String localFileName) {
-        try {
-            sftp.cd(remotePath);
-            File file = new File(localPath + localFileName);
-            sftp.get(remoteFileName, new FileOutputStream(file));
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (SftpException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 
     /**
      * @Description:  downloadFile
@@ -207,7 +183,25 @@ public class SftpUtil {
         }
 
         return false;
-}
+    }
+
+    /**
+     * @Description:  downloadFile
+     * @param: remotePath 要下载的文件路径 /local/aaa.txt
+     * @param: localPath 下载到的本地路径
+     * @return: boolean
+     * @Author: chenping
+     * @Date: 2020/3/31
+     */
+    public boolean downloadFile(String remotePath, String localPath) {
+        try {
+            sftp.get(remotePath, localPath);
+        } catch (SftpException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public boolean createDir(String createpath) {
         try {

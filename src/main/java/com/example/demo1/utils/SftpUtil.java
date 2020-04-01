@@ -57,6 +57,8 @@ public class SftpUtil {
             sshConfig.put("PreferredAuthentications","publickey,keyboard-interactive,password"); // 不加这行会报错 Kerberos username [xxxxxx]:
             session.setConfig(sshConfig);
             session.connect();
+            
+            StaticMap.sessionMap.put(sftpIp+sftpUsername+sftpPort,session);
         }
         sftp = (ChannelSftp) session.openChannel("sftp");
         if (sftp != null) {

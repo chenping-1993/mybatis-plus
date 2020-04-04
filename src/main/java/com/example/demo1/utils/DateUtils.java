@@ -130,7 +130,7 @@ public class DateUtils {
      * @param format 格式为 HH_MM_SS
      * @return 输出格式为 HH_MM_SS
      */
-    public static String getAfterDateTime(int hour, String format) {
+    public static String getAfterNHoursDateTime(int hour, String format) {
         LocalTime localTime = LocalTime.now().plusHours(hour);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
         String dataTime = localTime.format(dateTimeFormatter);
@@ -229,82 +229,30 @@ public class DateUtils {
     }
 
     /**
-     * 获得N个月后的日期
+     * 获得指定时间N个月后的日期
      * theDate 日期 与format格式保持一致
      * int month 月数
      * format 格式
      */
     public static String afterNMonthDate(String theDate, int month, String format) {
+        String preDate = "";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf =new SimpleDateFormat(format);
+        Date date = null;
+        try {
+            date = sdf.parse(theDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
-        return LocalDateTime.parse(theDate, dateTimeFormatter)
-                .plusMonths(month)
-                .format(dateTimeFormatter);
-
+        c.setTime(date);
+        int months = c.get(Calendar.MONTH);
+        c.set(Calendar.MONTH, month + months);
+        preDate = sdf.format(c.getTime());
+        return preDate;
     }
 
     /**
-     * 得到N天后的日期
-     *
-     * @param theDate 某日期 format格式
-     * @param nDayNum N天
-     * @param format N天
-     * @return String N天后的日期
-     */
-    public static String afterNDaysDate(String theDate, Integer nDayNum, String format) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
-
-        return LocalDateTime.parse(theDate, dateTimeFormatter)
-                .plusDays(nDayNum)
-                .format(dateTimeFormatter);
-    }
-
-    /**
-     * 得到N小时后的日期
-     *
-     * @param theDate  时间
-     * @param nHourNum N小时数
-     * @param format   时间格式
-     * @return
-     */
-    public static String afterNHoursDate(String theDate, Integer nHourNum, String format) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
-        return LocalDateTime.parse(theDate, dateTimeFormatter)
-                .plusHours(nHourNum)
-                .format(dateTimeFormatter);
-    }
-
-    /**
-     * 得到N分钟后的日期
-     *
-     * @param theDate
-     * @param nMinNum
-     * @param format
-     * @return
-     */
-    public static String afterNMinsDate(String theDate, Integer nMinNum, String format) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
-        return LocalDateTime.parse(theDate, dateTimeFormatter)
-                .plusMinutes(nMinNum)
-                .format(dateTimeFormatter);
-    }
-
-    /**
-     * 得到N秒后的日期
-     *
-     * @param theDate
-     * @param nSecNum
-     * @param format
-     * @return
-     */
-    public static String afterNSecondsDate(String theDate, Integer nSecNum, String format) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
-        return LocalDateTime.parse(theDate, dateTimeFormatter)
-                .plusSeconds(nSecNum)
-                .format(dateTimeFormatter);
-    }
-
-        /**
      * @description:  获取指定日期的后n天
      * @param: strData
      * @param: days
@@ -327,6 +275,87 @@ public class DateUtils {
         c.setTime(date);
         int day1 = c.get(Calendar.DATE);
         c.set(Calendar.DATE, day1 + days);
+        preDate = sdf.format(c.getTime());
+        return preDate;
+    }
+
+    /**
+     * @Description:  得到指定时间N小时后的日期
+     * @param: theDate
+     * @param: nHour
+     * @param: format
+     * @return: java.lang.String
+     * @Author: chenping
+     * @Date: 2020/4/4
+     */
+    public static String getAfterNHoursDate(String theDate, Integer nHour, String format) {
+        String preDate = "";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf =new SimpleDateFormat(format);
+        Date date = null;
+        try {
+            date = sdf.parse(theDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        c.setTime(date);
+        int hours = c.get(Calendar.HOUR);
+        c.set(Calendar.HOUR, hours + nHour);
+        preDate = sdf.format(c.getTime());
+        return preDate;
+    }
+
+    /**
+     * @Description:  得到指定时间N分钟后的日期
+     * @param: theDate
+     * @param: nMinute
+     * @param: format
+     * @return: java.lang.String
+     * @Author: chenping
+     * @Date: 2020/4/4
+     */
+    public static String getAfterNMinutesDate(String theDate, Integer nMinute, String format) {
+        String preDate = "";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf =new SimpleDateFormat(format);
+        Date date = null;
+        try {
+            date = sdf.parse(theDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        c.setTime(date);
+        int minutes = c.get(Calendar.MINUTE);
+        c.set(Calendar.MINUTE, minutes + nMinute);
+        preDate = sdf.format(c.getTime());
+        return preDate;
+    }
+
+    /**
+     * @Description:  得到指定时间N秒后的日期
+     * @param: theDate
+     * @param: second
+     * @param: format
+     * @return: java.lang.String
+     * @Author: chenping
+     * @Date: 2020/4/4
+     */
+    public static String getAfterNSecondsDate(String theDate, Integer second, String format) {
+        String preDate = "";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf =new SimpleDateFormat(format);
+        Date date = null;
+        try {
+            date = sdf.parse(theDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        c.setTime(date);
+        int seconds = c.get(Calendar.SECOND);
+        c.set(Calendar.SECOND, second + seconds);
         preDate = sdf.format(c.getTime());
         return preDate;
     }
@@ -441,5 +470,10 @@ public class DateUtils {
         return returnStr;
     }
 
+    public static void main(String[] args) {
+        String time = "2020-04-01 11:12:13";
+        String time1 = "2020-04-01";
+        System.out.println(afterNMonthDate(time1,9,YYYY_MM_DD));
+    }
 
 }

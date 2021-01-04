@@ -10,10 +10,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling//定时任务
 @EnableAsync//异步任务
-public class Demo1Application {
+public class MybatisPlusApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Demo1Application.class, args);
+        SpringApplication.run(MybatisPlusApplication.class, args);
     }
 
 }

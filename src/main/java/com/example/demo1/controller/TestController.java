@@ -1,12 +1,12 @@
 package com.example.demo1.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo1.entity.User;
 import com.example.demo1.mapper.UserMapper;
-import com.example.demo1.utils.DateUtils;
 import com.example.demo1.utils.RedisUtil;
 import com.example.demo1.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,6 +225,40 @@ public class TestController {
 
 
         return userMapper.selectAll(queryWrapper);
+    }
+
+    /** 
+     * @Description:  lamda 查询条件
+     * @param:  
+     * @return: java.util.List<com.example.demo1.entity.User> 
+     * @Author: chenping
+     * @Date: 2021/1/4 17:42
+     */
+    @GetMapping("/lamdaQuery")
+    public List<User> MybatisPlusTestSelect() {
+
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(User::getAge,22);
+        lambdaQueryWrapper.like(User::getName,"xiao");
+        List<User> mybatisPlusTests = userMapper.selectList(lambdaQueryWrapper);
+        return mybatisPlusTests;
+    }
+
+    /**
+     * @Description:  distinct limit 查询方式示例
+     * @param:
+     * @return: void
+     * @Author: chenping
+     * @Date: 2020/12/31 10:32
+     */
+    @GetMapping("/distinct-limit")
+    public List<User> MybatisPlusTestDistinctLimitSelect() {
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("distinct name");
+        queryWrapper.last("limit 3");
+        List<User> distinctLimitSelect = userMapper.selectList(queryWrapper);
+        return distinctLimitSelect;
     }
 
     /***
